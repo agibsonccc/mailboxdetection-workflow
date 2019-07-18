@@ -1,6 +1,5 @@
 ﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="DownloadAndExtract" mva:VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="DownloadAndExtract_1"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
- xmlns:be="clr-namespace:BalaReva.Externals;assembly=BalaReva.Externals"
  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
  xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
  xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
@@ -8,6 +7,7 @@
  xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
  xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
  xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -32,6 +32,8 @@
       <x:String>System.Windows.Markup</x:String>
       <x:String>UiPath.Core</x:String>
       <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.IO.Compression</x:String>
+      <x:String>System.Net</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -59,18 +61,26 @@
       <AssemblyReference>UiPath.Java.Activities</AssemblyReference>
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+      <AssemblyReference>System.IO.Compression</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence DisplayName="DownloadAndExtract" sap2010:WorkflowViewState.IdRef="Sequence_1">
-    <be:DownloadFile DisplayName="Download File" FilePath="[Directory.GetCurrentDirectory() +   &quot;distro.zip&quot;]" sap2010:WorkflowViewState.IdRef="DownloadFile_1" URL="https://drive.google.com/uc?export=download&amp;confirm=YrOY&amp;id=1LAIqVnw2QjNsorLirDHqqmfR955Lc1uo" />
-    <be:UnZipFile Password="{x:Null}" CodePage="1252" DisplayName="UnZip" ExtractFolderPath="[Directory.GetCurrentDirectory() + &quot;\distro&quot;]" sap2010:WorkflowViewState.IdRef="UnZipFile_1" ZipFile="[Directory.GetCurrentDirectory() + &quot;\distro.zip&quot;]" />
-    <sads:DebugSymbol.Symbol>d05DOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXHJwYS1idW5kbGUtZGVtb1x1aXBhdGhcRG93bmxvYWRBbmRFeHRyYWN0LnhhbWwIQANEDgIBAUEFQZkCAgEGQgVCjQICAQJBrwFBlgICAQhBO0F5AgEHQl1ClgECAQVCzQFCigICAQRCMEI2AgED</sads:DebugSymbol.Symbol>
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Default="distro.zip" Name="fileName" />
+    </Sequence.Variables>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim fileReader As New WebClient()&#xD;&#xA;fileReader.DownloadFile(url, filePath)&#xD;&#xA;ZipFile.ExtractToDirectory(Directory.GetCurrentDirectory() + &quot;\&quot; + fileName, &#xD;&#xA;filePath)" DisplayName="Invoke Code" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="filePath" xml:space="preserve">[Directory.GetCurrentDirectory() +   "\distro.zip"]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="url">https://github.com/agibsonccc/mailboxdetection-workflow/releases/download/1.0/distro.zip</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="fileName">[fileName]</InArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <sads:DebugSymbol.Symbol>d05DOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXHJwYS1idW5kbGUtZGVtb1x1aXBhdGhcRG93bmxvYWRBbmRFeHRyYWN0LnhhbWwFQwNPDgIBAUU0RUACAQJHBU0VAgEDSjxKlAECAQdLQUtLAgEF</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
-      <sap2010:ViewStateData Id="DownloadFile_1" sap:VirtualizedContainerService.HintSize="475,22" />
-      <sap2010:ViewStateData Id="UnZipFile_1" sap:VirtualizedContainerService.HintSize="475,103" />
-      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="497,289">
+      <sap2010:ViewStateData Id="InvokeCode_1" sap:VirtualizedContainerService.HintSize="314,164" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="336,288">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>

@@ -58,10 +58,9 @@
       <AssemblyReference>UiPath.Mail</AssemblyReference>
       <AssemblyReference>UiPath.Java.Activities</AssemblyReference>
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="ReplaceJsonWithPath" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Configure Server" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="distroPath" />
       <Variable x:TypeArguments="x:String" Name="replacedDistroPath" />
@@ -78,11 +77,10 @@
     </Assign>
     <ui:Replace sap2010:WorkflowViewState.IdRef="Replace_1" Input="[distroPath]" Pattern="\\" RegexOption="IgnoreCase, Compiled" Replacement="\\\\" Result="[replacedDistroPath]" />
     <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message Box" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[replacedDistroPath]" TopMost="True" />
-    <ui:ReadTextFile Content="[inputConfigJson]" DisplayName="Read Text File" FileName="[distroPath + &quot;\inference-image-config.json&quot;]" sap2010:WorkflowViewState.IdRef="ReadTextFile_1" />
+    <ui:ReadTextFile Content="[inputConfigJson]" DisplayName="Read in Template JSON replacing REPLACE" FileName="[distroPath + &quot;\inference-image-config.json&quot;]" sap2010:WorkflowViewState.IdRef="ReadTextFile_1" />
     <ui:Replace sap2010:WorkflowViewState.IdRef="Replace_2" Input="[inputConfigJson]" Pattern="REPLACE" RegexOption="IgnoreCase, Compiled" Replacement="[replacedDistroPath]" Result="[replacedJson]" />
-    <ui:WriteTextFile DisplayName="Write Text File" FileName="[distroPath + &quot;\inference-image-config.json&quot;]" Text="[replacedJson]" sap2010:WorkflowViewState.IdRef="WriteTextFile_1" />
-    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message Box" sap2010:WorkflowViewState.IdRef="MessageBox_2" Text="[replacedJson]" TopMost="True" />
-    <sads:DebugSymbol.Symbol>d09DOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXHJwYS1idW5kbGUtZGVtb1x1aXBhdGhcUmVwbGFjZUpzb25XaXRoUGF0aC54YW1sGEADVg4CAQFHBU4OAgEhTwVPtQECARpQBVDCAQIBF1EFUcUBAgESUgVSyQECAQpTBVPCAQIBBVQFVLwBAgECTDBMXgIBJEkxST0CASJPQ09RAgEfT44BT5QBAgEeT5wBT7IBAgEcT1pPXgIBG1CaAVCwAQIBGFFYUZEBAgEVUR5RMQIBE1JDUlYCARBSmAFSrgECAQ5StgFSxgECAQxSX1JoAgELU31TjQECAQhTPlN3AgEGVJoBVKoBAgED</sads:DebugSymbol.Symbol>
+    <ui:WriteTextFile DisplayName="Write the replacement configuration" FileName="[distroPath + &quot;\inference-image-config.json&quot;]" sap2010:WorkflowViewState.IdRef="WriteTextFile_1" Text="[replacedJson]" />
+    <sads:DebugSymbol.Symbol>d09DOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXHJwYS1idW5kbGUtZGVtb1x1aXBhdGhcUmVwbGFjZUpzb25XaXRoUGF0aC54YW1sFj8DVA4CAQFGBU0OAgEeTgVOtQECARdPBU/CAQIBFFAFUN4BAgEPUQVRyQECAQdSBVLWAQIBAkswS14CASFIMUg9AgEfTkNOUQIBHE6OAU6UAQIBG06cAU6yAQIBGU5aTl4CARhPmgFPsAECARVQcVCqAQIBElAeUDECARBRQ1FWAgENUZgBUa4BAgELUbYBUcYBAgEJUV9RaAIBCFLDAVLTAQIBBVJSUosBAgED</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -92,15 +90,14 @@
       <sap2010:ViewStateData Id="ReadTextFile_1" sap:VirtualizedContainerService.HintSize="314,59" />
       <sap2010:ViewStateData Id="Replace_2" sap:VirtualizedContainerService.HintSize="314,22" />
       <sap2010:ViewStateData Id="WriteTextFile_1" sap:VirtualizedContainerService.HintSize="314,87" />
-      <sap2010:ViewStateData Id="MessageBox_2" sap:VirtualizedContainerService.HintSize="314,59" />
-      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="336,732">
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="336,633">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="ReplaceJsonWithPath_1" sap:VirtualizedContainerService.HintSize="376,852" />
+      <sap2010:ViewStateData Id="ReplaceJsonWithPath_1" sap:VirtualizedContainerService.HintSize="376,812" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>
