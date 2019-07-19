@@ -41,6 +41,30 @@ Integration usage
 The json output from the model should be used and integrated in to a larger workflow
 that takes action on whether there is mail present in the submitted picture.
 
+ A sample workflow named UsedScoreImage.xaml is bundled
+ with the server to show how to invoke the server.
+
+ You pass in an input image path and you can get output from the server.
+
+  ![Use Score Image](img/usescoreimage.png "Use Score image")
+ 
+  The workflow uses InvokeWorkflowFile
+ on the ScoreImage.xaml workflow.  This contains the 
+ actual logic for using the server.
+
+ ![Inside Template](img/insidetemplate.png "Inside Template")
+
+ All the end user needs to do is configure the image path.
+
+ ![Score image args](img/scoreimageargs.png "Score image args")
+
+
+After wards, the workflow will output the coordinates and labels that are to be used in an external integration:
+
+ ![AI Output](img/aioutput.png "AI Output")
+
+
+
 Troubleshooting
 --------------------------------
 
@@ -56,3 +80,9 @@ containing the model and server. Extract it to the directory where your worfklow
 3. Run StartProcess.xaml.
 
 ![Started Server](img/startedserver.png "Started Server")
+
+
+
+If the UseScoreImage fails to run the first time as intended above, this maybe due to a request time out due to the server
+needing to startup the first time. Just rerun the workflow
+and you should see the intended results.
