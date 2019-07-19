@@ -39,3 +39,16 @@ Integration usage
 The json output from the model should be used and integrated in to a larger workflow
 that takes action on whether there is mail present in the submitted picture.
 
+
+Troubleshooting
+--------------------------------
+
+If the download fails, follow the following steps:
+
+1. Download the [zip file](https://github.com/agibsonccc/mailboxdetection-workflow/releases/download/1.0/distro.zip)
+containing the model and server. Extract it to the directory where your worfklows are.
+
+2. Run ReplaceJsonWithPath.xaml. This will configure the server to start using the proper directory. This is required to start the server.
+
+3. Run StartProcess.xaml.
+
