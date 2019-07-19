@@ -1,7 +1,6 @@
 Workflows for Mailbox detection
 -----------------------------------
 
-
 File Descriptions
 ----------------------
 ScoreImage.xaml: For use after the server is started. This allows you to send an image specified as a file path to 
@@ -22,6 +21,10 @@ Run StartServer.xaml first. This will download a server distribution from the re
 of this repository containing everything needed to run the model.
 
 After this, ensure the server output has "Started Veticle" in the text.
+
+![Started Server](img/startedserver.png "Started Server")
+
+
 If there are any exceptions, please file a github issue.
 
 To test it, submit a test image using ScoreImage.xaml. This is a workflow that contains
@@ -32,13 +35,11 @@ The only thing that needs to be changed for your own custom image is the image p
 After this, a series of alerts will display indicating the output from the model and will also display an
 image that was created that displays the labels found in the image.
 
-
 Integration usage
 ------------------------------
 
 The json output from the model should be used and integrated in to a larger workflow
 that takes action on whether there is mail present in the submitted picture.
-
 
 Troubleshooting
 --------------------------------
@@ -49,6 +50,9 @@ If the download fails, follow the following steps:
 containing the model and server. Extract it to the directory where your worfklows are.
 
 2. Run ReplaceJsonWithPath.xaml. This will configure the server to start using the proper directory. This is required to start the server.
+   ![Replace Picture](img/replacepicture.png "Replace Picture")
+   ![Replace Picture Result](img/replacepictureresult.png "Replace Picture Result")
 
 3. Run StartProcess.xaml.
 
+![Started Server](img/startedserver.png "Started Server")
