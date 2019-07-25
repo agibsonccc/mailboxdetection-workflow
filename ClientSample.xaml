@@ -56,10 +56,9 @@
       <AssemblyReference>System.ServiceModel</AssemblyReference>
       <AssemblyReference>System.ValueTuple</AssemblyReference>
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="This workflow is a sample to show how to use integrate the score image workflow in to a larger process." DisplayName="ClientSample" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="This workflow is a sample to show how to use integrate the score image workflow in to a larger process.&#xD;&#xA;&#xD;&#xA;At test image can be found under distro\testbox.jpg" DisplayName="ClientSample" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="s:String[]" Name="mailboxStatusesArg" />
     </Sequence.Variables>
@@ -71,7 +70,7 @@
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
     <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message Box" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[mailboxStatusesArg(0).toString]" TopMost="True" />
-    <sads:DebugSymbol.Symbol>d0tDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXG1haWxib3hkZXRlY3Rpb24td29ya2Zsb3dcQ2xpZW50U2FtcGxlLnhhbWwGPgNLDgIBAUIFSB0CAQVJBUnOAQIBAkZORmICAQdCqwFCvAECAQZJmgFJvAECAQM=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d0tDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXG1haWxib3hkZXRlY3Rpb24td29ya2Zsb3dcQ2xpZW50U2FtcGxlLnhhbWwGPQNKDgIBAUEFRx0CAQVIBUjOAQIBAkVORWICAQdBqwFBvAECAQZImgFIvAECAQM=</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -97,7 +96,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="ClientSample_1" sap:VirtualizedContainerService.HintSize="240,220" />
+      <sap2010:ViewStateData Id="ClientSample_1" sap:VirtualizedContainerService.HintSize="376,390" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>
