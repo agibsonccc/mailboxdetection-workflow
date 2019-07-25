@@ -63,8 +63,8 @@
   <Sequence DisplayName="Start Server" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Boolean" Name="distroExists" />
-      <Variable x:TypeArguments="x:String" Default="[distroDir + &quot;\jdk\bin\java.exe&quot;]" Name="javaFile" />
-      <Variable x:TypeArguments="x:String" Default="[&quot;-d64 -jar &quot; + distroDir + &quot; \modelserver.jar --configPath &quot;  + distroDir + &quot;\inference-image-config.json&quot;]" Name="args" />
+      <Variable x:TypeArguments="x:String" Default="[distroDir + &quot;\pipelines.exe&quot;]" Name="javaFile" />
+      <Variable x:TypeArguments="x:String" Default="[&quot; --configPath &quot;  + distroDir + &quot;\inference-image-config.json&quot;]" Name="args" />
       <Variable x:TypeArguments="x:String" Default="[Directory.GetCurrentDirectory()  +  &quot;\distro&quot;]" Name="distroDir" />
     </Sequence.Variables>
     <Assign DisplayName="Assign the current directory and distribution path" sap2010:WorkflowViewState.IdRef="Assign_1">
@@ -80,7 +80,7 @@
         <OutArgument x:TypeArguments="x:String">[javaFile]</OutArgument>
       </Assign.To>
       <Assign.Value>
-        <InArgument x:TypeArguments="x:String">[distroDir + "\jdk\bin\java.exe"]</InArgument>
+        <InArgument x:TypeArguments="x:String">[distroDir + "\pipelines.exe"]</InArgument>
       </Assign.Value>
     </Assign>
     <Assign DisplayName="Set the arguments for running the server" sap2010:WorkflowViewState.IdRef="Assign_3">
@@ -88,26 +88,30 @@
         <OutArgument x:TypeArguments="x:String">[args]</OutArgument>
       </Assign.To>
       <Assign.Value>
-        <InArgument x:TypeArguments="x:String" xml:space="preserve">["-d64 -jar " + distroDir + "\modelserver.jar --configPath "  + distroDir + "\inference-image-config.json"]</InArgument>
+        <InArgument x:TypeArguments="x:String" xml:space="preserve">[" --configPath "  + distroDir + "\inference-image-config.json"]</InArgument>
       </Assign.Value>
     </Assign>
     <ui:PathExists DisplayName="Ensure the server is downloaded, if not download it" Exists="[distroExists]" sap2010:WorkflowViewState.IdRef="PathExists_1" Path="[distroDir]" PathType="Folder" />
     <If Condition="[distroExists]" DisplayName="Start the server after setting it up if needed" sap2010:WorkflowViewState.IdRef="If_1">
       <If.Then>
         <Sequence sap2010:WorkflowViewState.IdRef="Sequence_3">
-          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message Box" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Starting server already found server distro&quot;]" TopMost="True" />
+          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ConfigureServer workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="ConfigureServer.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <scg:Dictionary x:TypeArguments="x:String, Argument" />
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
           <ui:StartProcess Arguments="[args]" ContinueOnError="True" DisplayName="Start Process" FileName="[javaFile]" sap2010:WorkflowViewState.IdRef="StartProcess_1" WorkingDirectory="[distroDir]" />
         </Sequence>
       </If.Then>
       <If.Else>
         <Sequence sap2010:WorkflowViewState.IdRef="Sequence_2">
-          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message Box" sap2010:WorkflowViewState.IdRef="MessageBox_2" Text="[&quot;Downloading and extracting, this may take a few minutes. Then starting server.&quot;]" TopMost="True" />
           <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Download and extract server to zip file" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="DownloadAndExtract.xaml">
             <ui:InvokeWorkflowFile.Arguments>
-              <scg:Dictionary x:TypeArguments="x:String, Argument" />
+              <InArgument x:TypeArguments="x:String" x:Key="in_FileURL">https://github.com/agibsonccc/mailboxdetection-workflow/releases/download/1.0/distro.zip</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_ExtractPath">[Directory.GetCurrentDirectory()]</InArgument>
             </ui:InvokeWorkflowFile.Arguments>
           </ui:InvokeWorkflowFile>
-          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Configure server after downloaded" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="ReplaceJsonWithPath.xaml">
+          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Configure server after downloaded" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="ConfigureServer.xaml">
             <ui:InvokeWorkflowFile.Arguments>
               <scg:Dictionary x:TypeArguments="x:String, Argument" />
             </ui:InvokeWorkflowFile.Arguments>
@@ -116,7 +120,7 @@
         </Sequence>
       </If.Else>
     </If>
-    <sads:DebugSymbol.Symbol>d0hDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXHJwYS1idW5kbGUtZGVtb1x1aXBhdGhcU3RhcnRQcm9jZXNzLnhhbWwkPwN4DgIBAUI0QmECAQZDNEPAAQIBA0Q0RG8CAQJGBU0OAgE0TgVVDgIBL1YFXQ4CASleBV7EAQIBJF8FdgoCAQhIMUg8AgE1UzBTUQIBMlAxUDsCATBYMVg3AgEqXl1ebQIBJ16iAV6vAQIBJV8TXyMCAQlhCWQUAgEZZwl0FAIBC2ILYu0BAgEiYwtjygECARpoC2iQAgIBF2kLbSMCARVuC3IjAgETcwtzwwECAQxioAFi2wECASNjP2NFAgEhYyZjLgIBH2NrY3cCAR1jugFjxwECARtooAFo/gECARhpygFp4wECARZuxAFu3gECARRzP3NFAgEScyZzLgIBEHNuc3oCAQ5zvQFzwAECAQ0=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d0NDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXG1haWxib3hkZXRlY3Rpb24td29ya2Zsb3dcTWFpbi54YW1sJD8DfA4CAQFCNEJeAgEFQzRDigECAQNENERvAgECRgVNDgIBMk4FVQ4CAS1WBV0OAgEoXgVexAECASNfBXoKAgEHSDFIPAIBM1MwU04CATBQMVA7AgEuWDFYNwIBKV5dXm0CASZeogFerwECASRfE18jAgEIYQloFAIBGGsJeBQCAQpiC2YjAgEhZwtnygECARlsC3EjAgEUcgt2IwIBEncLd8MBAgELYsIBYtgBAgEiZz9nRQIBIGcmZy4CAR5na2d3AgEcZ7oBZ8cBAgEabkluoQECARdvTW9uAgEWbMoBbOMBAgEVcsQBctoBAgETdz93RQIBEXcmdy4CAQ93bnd6AgENd70Bd8ABAgEM</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -124,28 +128,27 @@
       <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="697,60" />
       <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="697,60" />
       <sap2010:ViewStateData Id="PathExists_1" sap:VirtualizedContainerService.HintSize="697,90" />
-      <sap2010:ViewStateData Id="MessageBox_1" sap:VirtualizedContainerService.HintSize="314,59" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_3" sap:VirtualizedContainerService.HintSize="314,87" />
       <sap2010:ViewStateData Id="StartProcess_1" sap:VirtualizedContainerService.HintSize="314,87" />
-      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="336,310">
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="336,338">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="MessageBox_2" sap:VirtualizedContainerService.HintSize="314,59" />
       <sap2010:ViewStateData Id="InvokeWorkflowFile_1" sap:VirtualizedContainerService.HintSize="314,87" />
       <sap2010:ViewStateData Id="InvokeWorkflowFile_2" sap:VirtualizedContainerService.HintSize="314,87" />
-      <sap2010:ViewStateData Id="StartProcess_2" sap:VirtualizedContainerService.HintSize="759,1348" />
-      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="336,564">
+      <sap2010:ViewStateData Id="StartProcess_2" sap:VirtualizedContainerService.HintSize="759,1289" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="336,465">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="697,714" />
-      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="719,1268">
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="697,615" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="719,1169">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>

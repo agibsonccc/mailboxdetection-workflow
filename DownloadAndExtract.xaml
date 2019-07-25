@@ -1,4 +1,4 @@
-﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="DownloadAndExtract" mva:VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="DownloadAndExtract_1"
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="DownloadAndExtract"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
  xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
@@ -7,8 +7,18 @@
  xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
  xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
  xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sic="clr-namespace:System.IO.Compression;assembly=System.IO.Compression.FileSystem"
+ xmlns:sn="clr-namespace:System.Net;assembly=System"
  xmlns:ui="http://schemas.uipath.com/workflow/activities"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_FileURL" Type="InArgument(x:String)" />
+    <x:Property Name="in_ExtractPath" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>DownloadAndExtract_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System.Activities</x:String>
@@ -60,34 +70,54 @@
       <AssemblyReference>UiPath.Mail</AssemblyReference>
       <AssemblyReference>UiPath.Java.Activities</AssemblyReference>
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
       <AssemblyReference>System.IO.Compression</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence DisplayName="DownloadAndExtract" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
-      <Variable x:TypeArguments="x:String" Default="distro.zip" Name="fileName" />
+      <Variable x:TypeArguments="sn:WebClient" Default="[New WebClient()]" Name="FileDownloadClient" />
     </Sequence.Variables>
-    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim fileReader As New WebClient()&#xD;&#xA;fileReader.DownloadFile(url, filePath)&#xD;&#xA;ZipFile.ExtractToDirectory(Directory.GetCurrentDirectory() + &quot;\&quot; + fileName, &#xD;&#xA;filePath)" DisplayName="Invoke Code" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
-      <ui:InvokeCode.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="filePath" xml:space="preserve">[Directory.GetCurrentDirectory() +   "\distro.zip"]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="url">https://github.com/agibsonccc/mailboxdetection-workflow/releases/download/1.0/distro.zip</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="fileName">[fileName]</InArgument>
-      </ui:InvokeCode.Arguments>
-    </ui:InvokeCode>
-    <sads:DebugSymbol.Symbol>d05DOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXHJwYS1idW5kbGUtZGVtb1x1aXBhdGhcRG93bmxvYWRBbmRFeHRyYWN0LnhhbWwFQwNPDgIBAUU0RUACAQJHBU0VAgEDSjxKlAECAQdLQUtLAgEF</sads:DebugSymbol.Symbol>
+    <ui:CreateDirectory ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Create the directory to which the file should be extracted." DisplayName="Create Directory" sap2010:WorkflowViewState.IdRef="CreateDirectory_1" Path="[in_ExtractPath]" />
+    <InvokeMethod DisplayName="Invoke Method: DownloadFile" sap2010:WorkflowViewState.IdRef="InvokeMethod_1" MethodName="DownloadFile">
+      <InvokeMethod.TargetObject>
+        <InArgument x:TypeArguments="sn:WebClient">[FileDownloadClient]</InArgument>
+      </InvokeMethod.TargetObject>
+      <InArgument x:TypeArguments="x:String">[in_FileURL]</InArgument>
+      <InArgument x:TypeArguments="x:String">[in_ExtractPath+"\DownloadTemp.zip"]</InArgument>
+    </InvokeMethod>
+    <InvokeMethod DisplayName="Invoke method: ExtractToDirectory" sap2010:WorkflowViewState.IdRef="InvokeMethod_2" MethodName="ExtractToDirectory" TargetType="sic:ZipFile">
+      <InArgument x:TypeArguments="x:String">[in_ExtractPath+"\DownloadTemp.zip"]</InArgument>
+      <InArgument x:TypeArguments="x:String">[in_ExtractPath]</InArgument>
+    </InvokeMethod>
+    <ui:Delete sap2010:Annotation.AnnotationText="Using ContinueOnError for cases in which the file does not exist." ContinueOnError="True" DisplayName="Delete Temporary File" sap2010:WorkflowViewState.IdRef="Delete_1" Path="[in_ExtractPath+&quot;\DownloadTemp.zip&quot;]" />
+    <sads:DebugSymbol.Symbol>d1JDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXG1haWxib3hkZXRlY3Rpb24td29ya2Zsb3dcRG93bmxvYWRBbmRFeHRyYWN0Mi54YW1sDkwDXg4CAQFOOE5LAgECUAVQgQICARNRBVcUAgEMWAVbFAIBB1wFXJQCAgEDUOwBUP4BAgEUVi5WUgIBEVM0U0gCAQ9VLlU6AgENWS5ZUgIBClouWj4CAQhchgFcjAECAQZc4QFckQICAQQ=</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
-      <sap2010:ViewStateData Id="InvokeCode_1" sap:VirtualizedContainerService.HintSize="314,164" />
-      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="336,288">
+      <sap2010:ViewStateData Id="CreateDirectory_1" sap:VirtualizedContainerService.HintSize="218.5,66">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="InvokeMethod_1" sap:VirtualizedContainerService.HintSize="218.5,134" />
+      <sap2010:ViewStateData Id="InvokeMethod_2" sap:VirtualizedContainerService.HintSize="218.5,134" />
+      <sap2010:ViewStateData Id="Delete_1" sap:VirtualizedContainerService.HintSize="218.5,82">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="240.5,660">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="DownloadAndExtract_1" sap:VirtualizedContainerService.HintSize="537,369" />
+      <sap2010:ViewStateData Id="DownloadAndExtract_1" sap:VirtualizedContainerService.HintSize="280.5,740" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>
