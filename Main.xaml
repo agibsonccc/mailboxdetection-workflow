@@ -100,7 +100,6 @@
               <scg:Dictionary x:TypeArguments="x:String, Argument" />
             </ui:InvokeWorkflowFile.Arguments>
           </ui:InvokeWorkflowFile>
-          <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[javaFile + args]" />
           <ui:StartProcess Arguments="[args]" ContinueOnError="True" DisplayName="Start Process" FileName="[javaFile]" sap2010:WorkflowViewState.IdRef="StartProcess_1" WorkingDirectory="[distroDir]" />
         </Sequence>
       </If.Then>
@@ -121,7 +120,7 @@
         </Sequence>
       </If.Else>
     </If>
-    <sads:DebugSymbol.Symbol>d0NDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXG1haWxib3hkZXRlY3Rpb24td29ya2Zsb3dcTWFpbi54YW1sJj8DfQ4CAQFCNELLAQIBBUM0Q4oBAgEDRDREbwIBAkYFTQ4CAThOBVUOAgEzVgVdDgIBLV4FXsQBAgEoXwV7CgIBCEgxSDwCATlTMFNRAgE2UDFQOwIBNFgxWDcCAS5eXV5tAgErXqIBXq8BAgEpXxNfIwIBCWEJaRQCARlsCXkUAgELYgtmIwIBJmcLZ44BAgEiaAtoygECARptC3IjAgEVcwt3IwIBE3gLeMMBAgEMYsIBYtgBAgEnZ3hniwECASNoP2hFAgEhaCZoLgIBH2hraHcCAR1ougFoxwECARtvSW+hAQIBGHBNcG4CARdtygFt4wECARZzxAFz2gECARR4P3hFAgESeCZ4LgIBEHhueHoCAQ54vQF4wAECAQ0=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d0NDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXG1haWxib3hkZXRlY3Rpb24td29ya2Zsb3dcTWFpbi54YW1sJD8DfA4CAQFCNELLAQIBBUM0Q4oBAgEDRDREbwIBAkYFTQ4CATROBVUOAgEvVgVdDgIBKV4FXsQBAgEkXwV6CgIBCEgxSDwCATVTMFNRAgEyUDFQOwIBMFgxWDcCASpeXV5tAgEnXqIBXq8BAgElXxNfIwIBCWEJaBQCARlrCXgUAgELYgtmIwIBImcLZ8oBAgEabAtxIwIBFXILdiMCARN3C3fDAQIBDGLCAWLYAQIBI2c/Z0UCASFnJmcuAgEfZ2tndwIBHWe6AWfHAQIBG25JbqEBAgEYb01vbgIBF2zKAWzjAQIBFnLEAXLaAQIBFHc/d0UCARJ3JncuAgEQd253egIBDne9AXfAAQIBDQ==</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -130,9 +129,8 @@
       <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="697,60" />
       <sap2010:ViewStateData Id="PathExists_1" sap:VirtualizedContainerService.HintSize="697,90" />
       <sap2010:ViewStateData Id="InvokeWorkflowFile_3" sap:VirtualizedContainerService.HintSize="314,87" />
-      <sap2010:ViewStateData Id="LogMessage_1" sap:VirtualizedContainerService.HintSize="314,93" />
       <sap2010:ViewStateData Id="StartProcess_1" sap:VirtualizedContainerService.HintSize="314,87" />
-      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="336,471">
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="336,338">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -141,7 +139,7 @@
       </sap2010:ViewStateData>
       <sap2010:ViewStateData Id="InvokeWorkflowFile_1" sap:VirtualizedContainerService.HintSize="314,87" />
       <sap2010:ViewStateData Id="InvokeWorkflowFile_2" sap:VirtualizedContainerService.HintSize="314,87" />
-      <sap2010:ViewStateData Id="StartProcess_2" sap:VirtualizedContainerService.HintSize="759,1255" />
+      <sap2010:ViewStateData Id="StartProcess_2" sap:VirtualizedContainerService.HintSize="759,1249" />
       <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="336,465">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -149,8 +147,8 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="697,621" />
-      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="719,1175">
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="697,615" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="719,1169">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
