@@ -90,7 +90,7 @@
       <InArgument x:TypeArguments="x:String">[in_ExtractPath]</InArgument>
     </InvokeMethod>
     <ui:Delete sap2010:Annotation.AnnotationText="Using ContinueOnError for cases in which the file does not exist." ContinueOnError="True" DisplayName="Delete Temporary File" sap2010:WorkflowViewState.IdRef="Delete_1" Path="[in_ExtractPath+&quot;\DownloadTemp.zip&quot;]" />
-    <sads:DebugSymbol.Symbol>d1JDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXG1haWxib3hkZXRlY3Rpb24td29ya2Zsb3dcRG93bmxvYWRBbmRFeHRyYWN0Mi54YW1sDkwDXg4CAQFOOE5LAgECUAVQgQICARNRBVcUAgEMWAVbFAIBB1wFXJQCAgEDUOwBUP4BAgEUVi5WUgIBEVM0U0gCAQ9VLlU6AgENWS5ZUgIBClouWj4CAQhchgFcjAECAQZc4QFckQICAQQ=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d1FDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXG1haWxib3hkZXRlY3Rpb24td29ya2Zsb3dcRG93bmxvYWRBbmRFeHRyYWN0LnhhbWwOTANeDgIBAU44TksCAQJQBVCBAgIBE1EFVxQCAQxYBVsUAgEHXAVclAICAQNQ7AFQ/gECARRWLlZSAgERUzRTSAIBD1UuVToCAQ1ZLllSAgEKWi5aPgIBCFyGAVyMAQIBBlzhAVyRAgIBBA==</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>

@@ -63,7 +63,7 @@
   <Sequence DisplayName="Start Server" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Boolean" Name="distroExists" />
-      <Variable x:TypeArguments="x:String" Default="[distroDir + &quot;\pipelines.exe&quot;]" Name="javaFile" />
+      <Variable x:TypeArguments="x:String" Default="[distroDir + &quot;\jdk\bin\java.exe -d64 -cp ai.skymind.pipelines.configprovider.PipelineServerMain &quot; + distroDir + &quot;\pipelines.jar&quot;]" Name="javaFile" />
       <Variable x:TypeArguments="x:String" Default="[&quot; --configPath &quot;  + distroDir + &quot;\inference-image-config.json&quot;]" Name="args" />
       <Variable x:TypeArguments="x:String" Default="[Directory.GetCurrentDirectory()  +  &quot;\distro&quot;]" Name="distroDir" />
     </Sequence.Variables>
@@ -80,7 +80,7 @@
         <OutArgument x:TypeArguments="x:String">[javaFile]</OutArgument>
       </Assign.To>
       <Assign.Value>
-        <InArgument x:TypeArguments="x:String">[distroDir + "\pipelines.exe"]</InArgument>
+        <InArgument x:TypeArguments="x:String">[distroDir + "\jdk\bin\java.exe"]</InArgument>
       </Assign.Value>
     </Assign>
     <Assign DisplayName="Set the arguments for running the server" sap2010:WorkflowViewState.IdRef="Assign_3">
@@ -88,7 +88,7 @@
         <OutArgument x:TypeArguments="x:String">[args]</OutArgument>
       </Assign.To>
       <Assign.Value>
-        <InArgument x:TypeArguments="x:String" xml:space="preserve">[" --configPath "  + distroDir + "\inference-image-config.json"]</InArgument>
+        <InArgument x:TypeArguments="x:String" xml:space="preserve">["-d64 -cp  " + distroDir + "\pipelines.jar ai.skymind.pipelines.configprovider.PipelineServerMain "  + " --configPath "  + distroDir + "\inference-image-config.json"]</InArgument>
       </Assign.Value>
     </Assign>
     <ui:PathExists DisplayName="Ensure the server is downloaded, if not download it" Exists="[distroExists]" sap2010:WorkflowViewState.IdRef="PathExists_1" Path="[distroDir]" PathType="Folder" />
@@ -100,6 +100,7 @@
               <scg:Dictionary x:TypeArguments="x:String, Argument" />
             </ui:InvokeWorkflowFile.Arguments>
           </ui:InvokeWorkflowFile>
+          <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[javaFile + args]" />
           <ui:StartProcess Arguments="[args]" ContinueOnError="True" DisplayName="Start Process" FileName="[javaFile]" sap2010:WorkflowViewState.IdRef="StartProcess_1" WorkingDirectory="[distroDir]" />
         </Sequence>
       </If.Then>
@@ -120,7 +121,7 @@
         </Sequence>
       </If.Else>
     </If>
-    <sads:DebugSymbol.Symbol>d0NDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXG1haWxib3hkZXRlY3Rpb24td29ya2Zsb3dcTWFpbi54YW1sJD8DfA4CAQFCNEJeAgEFQzRDigECAQNENERvAgECRgVNDgIBMk4FVQ4CAS1WBV0OAgEoXgVexAECASNfBXoKAgEHSDFIPAIBM1MwU04CATBQMVA7AgEuWDFYNwIBKV5dXm0CASZeogFerwECASRfE18jAgEIYQloFAIBGGsJeBQCAQpiC2YjAgEhZwtnygECARlsC3EjAgEUcgt2IwIBEncLd8MBAgELYsIBYtgBAgEiZz9nRQIBIGcmZy4CAR5na2d3AgEcZ7oBZ8cBAgEabkluoQECARdvTW9uAgEWbMoBbOMBAgEVcsQBctoBAgETdz93RQIBEXcmdy4CAQ93bnd6AgENd70Bd8ABAgEM</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d0NDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXG1haWxib3hkZXRlY3Rpb24td29ya2Zsb3dcTWFpbi54YW1sJj8DfQ4CAQFCNELLAQIBBUM0Q4oBAgEDRDREbwIBAkYFTQ4CAThOBVUOAgEzVgVdDgIBLV4FXsQBAgEoXwV7CgIBCEgxSDwCATlTMFNRAgE2UDFQOwIBNFgxWDcCAS5eXV5tAgErXqIBXq8BAgEpXxNfIwIBCWEJaRQCARlsCXkUAgELYgtmIwIBJmcLZ44BAgEiaAtoygECARptC3IjAgEVcwt3IwIBE3gLeMMBAgEMYsIBYtgBAgEnZ3hniwECASNoP2hFAgEhaCZoLgIBH2hraHcCAR1ougFoxwECARtvSW+hAQIBGHBNcG4CARdtygFt4wECARZzxAFz2gECARR4P3hFAgESeCZ4LgIBEHhueHoCAQ54vQF4wAECAQ0=</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -129,8 +130,9 @@
       <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="697,60" />
       <sap2010:ViewStateData Id="PathExists_1" sap:VirtualizedContainerService.HintSize="697,90" />
       <sap2010:ViewStateData Id="InvokeWorkflowFile_3" sap:VirtualizedContainerService.HintSize="314,87" />
+      <sap2010:ViewStateData Id="LogMessage_1" sap:VirtualizedContainerService.HintSize="314,93" />
       <sap2010:ViewStateData Id="StartProcess_1" sap:VirtualizedContainerService.HintSize="314,87" />
-      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="336,338">
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="336,471">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -139,7 +141,7 @@
       </sap2010:ViewStateData>
       <sap2010:ViewStateData Id="InvokeWorkflowFile_1" sap:VirtualizedContainerService.HintSize="314,87" />
       <sap2010:ViewStateData Id="InvokeWorkflowFile_2" sap:VirtualizedContainerService.HintSize="314,87" />
-      <sap2010:ViewStateData Id="StartProcess_2" sap:VirtualizedContainerService.HintSize="759,1289" />
+      <sap2010:ViewStateData Id="StartProcess_2" sap:VirtualizedContainerService.HintSize="759,1255" />
       <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="336,465">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -147,8 +149,8 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="697,615" />
-      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="719,1169">
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="697,621" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="719,1175">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>

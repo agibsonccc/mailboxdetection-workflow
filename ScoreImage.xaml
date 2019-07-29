@@ -78,6 +78,7 @@
       <AssemblyReference>Newtonsoft.Json</AssemblyReference>
       <AssemblyReference>System.ValueTuple</AssemblyReference>
       <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence DisplayName="Score" sap2010:WorkflowViewState.IdRef="Sequence_1">
@@ -89,6 +90,7 @@
       <Variable x:TypeArguments="s:String[]" Default="[new String(16) {}]" Name="mailboxStatuses" />
       <Variable x:TypeArguments="x:String" Name="filePath" />
     </Sequence.Variables>
+    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message Box" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[imagePath]" TopMost="True" />
     <Assign sap2010:WorkflowViewState.IdRef="Assign_5">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[body]</OutArgument>
@@ -97,6 +99,7 @@
         <InArgument x:TypeArguments="x:String">["{""imagePath"":""" + imagePath + """,""modelPath"":""" + modelPath + """}"]</InArgument>
       </Assign.Value>
     </Assign>
+    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message Box" Text="[body]" TopMost="True" sap2010:WorkflowViewState.IdRef="MessageBox_2" />
     <ui:HttpClient ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContinueOnError="{x:Null}" OAuth1Token="{x:Null}" OAuth1TokenSecret="{x:Null}" OAuth2Token="{x:Null}" Password="{x:Null}" ResourcePath="{x:Null}" ResponseHeaders="{x:Null}" StatusCode="{x:Null}" Username="{x:Null}" AcceptFormat="JSON" Body="[body]" BodyFormat="application/json" ClientCertificate="[Nothing]" ClientCertificatePassword="[Nothing]" DisplayName="Private: HTTP Request" EndPoint="http://localhost:1103/raw/dictionary" sap2010:WorkflowViewState.IdRef="HttpClient_3" Method="POST" Result="[response]" TimeoutMS="20000">
       <ui:HttpClient.Attachments>
         <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
@@ -122,11 +125,13 @@
     </Assign>
     <i:OpenImagePreview Image="{x:Null}" DisplayName="Open Image Preview" sap2010:WorkflowViewState.IdRef="OpenImagePreview_1" ImagePath="[filePath]" />
     <Delay sap2010:Annotation.AnnotationText="The delay is for allowing the image to be displayed to the user." Duration="00:00:20" sap2010:WorkflowViewState.IdRef="Delay_1" />
-    <sads:DebugSymbol.Symbol>d0lDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXG1haWxib3hkZXRlY3Rpb24td29ya2Zsb3dcU2NvcmVJbWFnZS54YW1sGQG3AQGJAgEDAVABoAEBAlMDfg4CAQFXNFdrAgEDWTZZSwIBAlwFYw4CARtkBXEVAgEScgVywgECAQ1zBXoOAgEJewV7mQECAQZ8BXyxAQIBBGEwYX0CAR5eMV43AgEcZJQDZJ8DAgEaZM8EZNYEAgEZZLUCZL0CAgEXZLgEZMQEAgEVZM0DZPMDAgEUZO4CZPkCAgETcrMBcr8BAgEQcpcBcqcBAgEOeDB4WAIBDHUxdTsCAQp7igF7lgECAQd8enyEAQIBBQ==</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d0lDOlxVc2Vyc1xhZ2lic1xEb2N1bWVudHNcR2l0SHViXG1haWxib3hkZXRlY3Rpb24td29ya2Zsb3dcU2NvcmVJbWFnZS54YW1sHQG3AQGJAgEDAVABoAEBAlQDgQEOAgEBWDRYawIBA1o2WksCAQJdBV25AQIBJF4FZQ4CAR5mBWa0AQIBG2cFdBUCARJ1BXXCAQIBDXYFfQ4CAQl+BX6ZAQIBBn8Ff7EBAgEEXZoBXacBAgElYzBjfQIBIWAxYDcCAR9ma2ZzAgEcZ5QDZ58DAgEaZ88EZ9YEAgEZZ7UCZ70CAgEXZ7gEZ8QEAgEVZ80DZ/MDAgEUZ+4CZ/kCAgETdbMBdb8BAgEQdZcBdacBAgEOezB7WAIBDHgxeDsCAQp+igF+lgECAQd/en+EAQIBBQ==</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="MessageBox_1" sap:VirtualizedContainerService.HintSize="314,59" />
       <sap2010:ViewStateData Id="Assign_5" sap:VirtualizedContainerService.HintSize="314,60" />
+      <sap2010:ViewStateData Id="MessageBox_2" sap:VirtualizedContainerService.HintSize="314,59" />
       <sap2010:ViewStateData Id="HttpClient_3" sap:VirtualizedContainerService.HintSize="314,22" />
       <sap2010:ViewStateData Id="DeserializeJson`1_4" sap:VirtualizedContainerService.HintSize="314,60" />
       <sap2010:ViewStateData Id="Assign_7" sap:VirtualizedContainerService.HintSize="314,60" />
@@ -138,14 +143,14 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="336,570">
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="336,768">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="ActivityBuilder_1" sap:VirtualizedContainerService.HintSize="376,650" />
+      <sap2010:ViewStateData Id="ActivityBuilder_1" sap:VirtualizedContainerService.HintSize="376,848" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>
